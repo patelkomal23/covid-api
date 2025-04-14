@@ -9,7 +9,6 @@ const options = {
   }
 };
 
-// Fetch country list and fill dropdown
 fetch('https://covid-193.p.rapidapi.com/countries', options)
   .then(response => response.json())
   .then(data => {
@@ -24,7 +23,6 @@ fetch('https://covid-193.p.rapidapi.com/countries', options)
     console.error('Error loading countries:', err);
   });
 
-// When a country is selected
 function displayCovid() {
   const country = select.value;
   if (!country) return;
