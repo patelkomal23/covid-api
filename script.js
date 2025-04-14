@@ -20,10 +20,10 @@ fetch('https://covid-193.p.rapidapi.com/countries', options)
     });
   })
   .catch(err => {
-    console.error('Error loading countries:', err);
+    console.error(err);
   });
 
-function displayCovid() {
+function display() {
   const country = select.value;
   if (!country) return;
 
@@ -39,6 +39,5 @@ function displayCovid() {
     })
     .catch(err => {
       console.error(err);
-      covidDiv.innerHTML = `<p class="text-danger">Error loading data.</p>`;
     });
 }
