@@ -2,28 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>COVID-19 Tracker</title>
-  <link rel="stylesheet" href="style.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>COVID-19 Info</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h1>🌍 COVID-19 Global Stats</h1>
-    <div class="stats">
-      <div class="card" id="confirmed">
-        <h2>Confirmed</h2>
-        <p id="totalConfirmed">Loading...</p>
+  <div class="container text-center mt-5">
+    <h2>COVID-19 Statistics</h2>
+    <div class="row justify-content-center mt-4">
+      <div class="col-md-4">
+        <select id="countries" class="form-select" onchange="displayCovid()">
+          <option value="" class="text-center">-- Select a Country --</option>
+        </select>
       </div>
-      <div class="card" id="deaths">
-        <h2>Deaths</h2>
-        <p id="totalDeaths">Loading...</p>
-      </div>
-      <div class="card" id="recovered">
-        <h2>Recovered</h2>
-        <p id="totalRecovered">Loading...</p>
+    </div>
+    <div class="row justify-content-center mt-4">
+      <div class="col-md-6">
+        <div id="covid" class="border rounded p-4 shadow-sm">
+          <p>Select a country to see COVID-19 data.</p>
+        </div>
       </div>
     </div>
   </div>
-  <script src="script.js">  </script>
+
+  <script src="script.js"></script>
 </body>
 </html>

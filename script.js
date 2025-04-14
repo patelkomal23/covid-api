@@ -1,36 +1,46 @@
-const url = 'https://covid-193.p.rapidapi.com/statistics';
+const covidDiv = document.getElementById('covid');
+const select = document.getElementById('countries');
+
 const options = {
   method: 'GET',
   headers: {
-    'X-RapidAPI-Key': '1b72de69famshf79f6467176bb1dp1820ddjsnfcfcde6084c9',
+    'X-RapidAPI-Key': '1b72de69famshf79f6467176bb1dp1820ddjsnfcfcde6084c9', 
     'X-RapidAPI-Host': 'covid-193.p.rapidapi.com'
   }
 };
 
-fetch(url, options)
+// Fetch country list and fill dropdown
+fetch('https://covid-193.p.rapidapi.com/countries', options)
   .then(response => response.json())
   .then(data => {
-    console.log(data); // See full response
-    if (data.response && data.response.length > 0) {
-      // Initialize totals
-      let totalConfirmed = 0;
-      let totalDeaths = 0;
-      let totalRecovered = 0;
-
-      // Loop through each entry and add up the values
-      data.response.forEach(stats => {
-        totalConfirmed += stats.cases.total || 0;
-        totalDeaths += stats.deaths.total || 0;
-        totalRecovered += stats.cases.recovered || 0;
-      });
-
-      document.getElementById('totalConfirmed').textContent = totalConfirmed.toLocaleString();
-      document.getElementById('totalDeaths').textContent = totalDeaths.toLocaleString();
-      document.getElementById('totalRecovered').textContent = totalRecovered.toLocaleString();
-    } else {
-      console.error("No data available.");
-    }
+    data.response.forEach(country => {
+      const opt = document.createElement('option');
+      opt.value = country;
+      opt.text = country;
+      select.appendChild(opt);
+    });
   })
   .catch(err => {
-    console.error("Error fetching data:", err);
+    console.error('Error loading countries:', err);
   });
+
+// When a country is selected
+function displayCovid() {
+  const country = select.value;
+  if (!country) return;
+
+  fetch(`https://covid-193.p.rapidapi.com/statistics?country=${country}`, options)
+    .then(res => res.json())
+    .then(data => {
+      const result = data.response[0];
+      covidDiv.innerHTML = `
+        <h4>${result.country}</h4>
+        <p><strong>Total Cases:</strong> ${result.cases.total?.toLocaleString() || 'N/A'}</p>
+        <p><strong>Deaths:</strong> ${result.deaths.total?.toLocaleString() || 'N/A'}</p>
+      `;
+    })
+    .catch(err => {
+      console.error(err);
+      covidDiv.innerHTML = `<p class="text-danger">Error loading data.</p>`;
+    });
+}
